@@ -1,0 +1,52 @@
+1. Check if you have Python installed. Enter the following command into your terminal:
+
+python --version
+
+If you get an error, stating that python is not recognized, try this the alternate command:
+
+python3 --version
+
+If both result in error, you need to install python. If one or both of the commands worked, the command that resulted in
+version 3 and you can skip Step 2.[something] is the version you want to use.
+
+
+
+2. Install Python: https://www.python.org/ftp/python/3.8.3/python-3.8.3-macosx10.9.pkg
+
+
+
+3. Once you have Python installed, move the zip file I sent you on Fiverr to your Desktop, and unzip the file.
+
+
+
+6. In your Finder, open the folder and replace accounts.csv with your real accounts.csv file. Ensure that that new file
+is also titled exactly "accounts.csv".
+
+
+
+4. Open your terminal again and type the following command:
+
+cd Desktop/bitcoin_scraper
+
+
+
+5. You are now inside the directory of this project. Install the necessary libraries using the following command (you only
+need to execute this once):
+
+pip install -r requirements.txt
+
+In step 1, if you used python3 --version, then here you instead want to run:
+
+pip3 install -r requirements.txt
+
+
+
+7. Run the python program in your terminal:
+
+python3 scraper.py
+
+
+
+8. The results are outputted in the file output.csv. You can make a copy of this file, and do anything you want with it,
+but make sure you don't alter the program-generated file, as the program relies on it to recognize where to start scraping
+from next time you run the code.
