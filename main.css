@@ -1,0 +1,156 @@
+/* Main CSS Stylesheet */
+
+@import url("https://fonts.googleapis.com/css?family=Varela+Round");
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap");
+
+:root {
+    --color-1: #21d4fd;
+    --color-2: #522b86;
+    --color-3: #08aeea;
+    --color-4: #5ebd47;
+    --color-5: #6797ff;
+    --color-6: #8f8d90;
+}
+
+* {
+    font-family: "Lato", sans-serif;
+}
+
+body {
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 0;
+    font-size: 3rem;
+    text-transform: none;
+    font-family: "Valera Round", sans-serif;
+}
+
+h2 {
+    margin: 0;
+    font-size: 1.3rem;
+    text-shadow: 0 0.5rem 1rem rgba(50,0,100,0.1);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-weight: 300;
+}
+
+h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+p {
+    font-weight: 300;
+    color: var(--color-6);
+}
+
+.row {
+    display: table;
+}
+
+.col {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.section {
+    margin-top: 90px;
+    padding: 64px 120px;
+}
+
+.half {
+    width: 50%;
+}
+
+.thirds {
+    width: 33.3333%;
+}
+
+.fourths {
+    width: 25%;
+}
+
+.fifths {
+    width: 20%;
+}
+
+.form-control {
+    width: calc(100% - 28px);
+    margin-top: 32px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    background: rgba(109,124,144,.1);
+    padding: 8px 12px;
+    border: 2px solid transparent;
+    line-height: 1.8em;
+    letter-spacing: .5px;
+    font-weight: 600;
+    color: #20292f;
+    outline: none;
+    font-size: .9em;
+    transition: 300ms all cubic-bezier(.4,0,.2,1);
+}
+
+.form-control:hover {
+    border: 2px solid var(--color-2);
+}
+
+.form-control:focus {
+    border: 2px solid var(--color-2);
+    background: #ffffff;
+}
+
+.cards {
+    box-shadow: 0 8px 60px 0 rgba(103,151,255,.11), 0 12px 90px 0 rgba(103,151,255,.11);
+    margin: auto;
+    border-radius: 5px;
+    padding: 64px;
+}
+
+.container {
+    width: 35%;
+    margin: 60px auto;
+}
+
+.submit, .submit:focus {
+    cursor: pointer;
+    color: white;
+    background-image: -webkit-linear-gradient(45deg, var(--color-2) 0%, #cb3dc9 100%);
+    border: none !important;
+    transition-duration: 0.3s;
+    width: 100% !important;
+}
+
+.err {
+    border: 2px solid red;
+}
+
+.err-help {
+    color: red;
+}
+
+.submit:hover {
+    transform: translate(0, -5px);
+    background-image: -webkit-linear-gradient(45deg, #6f286d 0%, #cb3dc9 100%);
+}
+
+@media (max-width: 900px) {
+    .row-container {
+        margin: 0;
+        padding: 10px;
+    }
+
+    .col {
+        display: block;
+        width: 100%;
+    }
+
+    .row {
+        margin: 0;
+    }
+}
