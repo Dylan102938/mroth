@@ -50,7 +50,7 @@
             copy("latest_blank.csv", $file_name);
         }
 
-        $cmd = escapeshellcmd("C:\Users\dylan\AppData\Local\Programs\Python\Python38-32\Scripts\python.exe test.py");
+        $cmd = escapeshellcmd("python3 scraper.py");
         $output = shell_exec($cmd);
         echo $output;
     }
