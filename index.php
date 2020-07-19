@@ -5,7 +5,7 @@
         header("Location: ./login.php");
     }
 
-    $file_err = $latest_err = "";
+    $latest_err = $file_err = "";
 
     if (isset($_POST["submit"])) {
         if ($_FILES["accounts"]["tmp_name"] !== "") {
@@ -50,9 +50,8 @@
             copy("latest_blank.csv", $file_name);
         }
 
-        $cmd = escapeshellcmd("C:\Users\dylan\AppData\Local\Programs\Python\Python38-32\Scripts\python.exe test.py");
+        $cmd = escapeshellcmd("python3 scraper.py");
         $output = shell_exec($cmd);
-        echo $output;
     }
 ?>
 
@@ -71,6 +70,13 @@
 
                 <div style = "margin-top: 64px;"></div>
 
+                <label for = "current_latest">Current Latest.CSV File</label>
+                <div class = "form-control" name = "current_latest" id = "current_latest" style = "height: 400px; overflow: auto;">
+
+                </div>
+
+                <div style = "margin-top: 64px;"></div>
+
                 <label for = "latest">Upload Your Latest.CSV File (Optional)</label>
                 <input type = "file" class = "form-control" name = "latest" id = "latest" style = "width: 100%;" accept = ".csv">
                 <span class = "err-help" id = "latest-help"><?php echo $latest_err; ?></span>
@@ -78,6 +84,12 @@
                 <input type = "submit" class = "form-control submit" name = "submit">
             </form>
         </div>
+
+        <script
+                src="https://code.jquery.com/jquery-3.5.0.min.js"
+                integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+                crossorigin="anonymous">
+        </script>
 
         <script type = "text/javascript">
             if (document.getElementById("accounts-help").innerHTML !== "") {
@@ -87,6 +99,13 @@
             if (document.getElementById("latest-help").innerHTML !== "") {
                 document.getElementById("latest").classList.add("err");
             }
+
+            $(document).ready(function() {
+                jQuery.get('latest.csv?t=' + Math.floor(Date.now() / 1000), function(data) {
+                    data = data.replace(/\n/g, "<br>");
+                    $("#current_latest").html("<span>" + data + "</span>");
+                });
+            })
         </script>
     </body>
 </html>

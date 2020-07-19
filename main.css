@@ -139,6 +139,10 @@ p {
     background-image: -webkit-linear-gradient(45deg, #6f286d 0%, #cb3dc9 100%);
 }
 
+#current_latest:hover {
+    border: 2px solid transparent;
+}
+
 @media (max-width: 900px) {
     .row-container {
         margin: 0;
