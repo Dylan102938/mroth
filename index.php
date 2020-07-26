@@ -5,52 +5,56 @@
         header("Location: ./login.php");
     }
 
-    $latest_err = $file_err = "";
+    $file_err = "";
+    $data = [];
 
-    if (isset($_POST["submit"])) {
+    if (isset($_POST["submit"]) || isset($_POST["run_now"])) {
         if ($_FILES["accounts"]["tmp_name"] !== "") {
             if ($_FILES["accounts"]["error"] > 0) {
                 $file_err = "An Error Occurred.";
 
             }
 
-
-            $file_name = "accounts.csv";
-
-            if (file_exists($file_name)) {
-                unlink($file_name);
+            if (($handle = fopen("accounts.csv", 'r')) !== false) {
+                while (($dataValue = fgetcsv($handle, 1000)) !== false) {
+                    $data[] = $dataValue;
+                }
             }
+            fclose($handle);
 
-            move_uploaded_file($_FILES["accounts"]["tmp_name"], $file_name);
+            if (($handle2 = fopen($_FILES["accounts"]["tmp_name"], "r")) !== false) {
+                $count = 0;
+                while (($dataValue = fgetcsv($handle2, 1000)) !== false) {
+                    if ($count != 0) {
+                        $data[] = $dataValue;
+                    }
+                    $count = 1;
+                }
+            }
+            fclose($handle2);
 
+            print_r($data);
+
+            $masterFile = fopen("accounts.csv", "w+");
+            foreach ($data as $value) {
+                try {
+                    fputcsv($masterFile, $value, ",", "'");
+                }
+
+                catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+            }
+            fclose($masterFile);
         }
 
         else {
             $file_err = "Please Upload an Account.CSV File.";
         }
+    }
 
-        $file_name = "latest.csv";
-        if ($_FILES["latest"]["tmp_name"] !== "") {
-            if ($_FILES["latest"]["error"] > 0) {
-                $latest_err = "An Error Occurred.";
-            }
-
-            else {
-                $file_name = "latest.csv";
-
-                if (file_exists($file_name)) {
-                    unlink($file_name);
-                }
-
-                move_uploaded_file($_FILES["latest"]["tmp_name"], $file_name);
-            }
-        }
-
-        else {
-            copy("latest_blank.csv", $file_name);
-        }
-
-        $cmd = escapeshellcmd("python3 scraper.py");
+    if (isset($_POST["run_now"])) {
+        $cmd = "python3 scraper.py";
         $output = shell_exec($cmd);
     }
 ?>
@@ -64,7 +68,7 @@
     <body>
         <div class = "container">
             <form method = "post" action = "index.php" enctype= "multipart/form-data">
-                <label for = "accounts">Upload Your Accounts.CSV File</label>
+                <label for = "accounts">Upload New Accounts As CSV</label>
                 <input type = "file" class = "form-control" name = "accounts" id = "accounts" style = "width: 100%;" accept = ".csv">
                 <span class = "err-help" id = "accounts-help"><?php echo $file_err; ?></span><br>
 
@@ -75,13 +79,17 @@
 
                 </div>
 
-                <div style = "margin-top: 64px;"></div>
+                <div class = "row" style = "width: 100%;">
+                    <div class = "col half" style = "padding-right: 10px;">
+                        <input type = "submit" class = "form-control submit" name = "submit">
+                    </div>
 
-                <label for = "latest">Upload Your Latest.CSV File (Optional)</label>
-                <input type = "file" class = "form-control" name = "latest" id = "latest" style = "width: 100%;" accept = ".csv">
-                <span class = "err-help" id = "latest-help"><?php echo $latest_err; ?></span>
-
-                <input type = "submit" class = "form-control submit" name = "submit">
+                    <div class = "col half" style = "padding-left: 10px;">
+                        <input type = "submit" class = "form-control submit" name = "run_now"
+                               style = "background-image: -webkit-linear-gradient(45deg, #13f80a 0%, #57ad4a 100%);"
+                               value = "Run Now">
+                    </div>
+                </div>
             </form>
         </div>
 
@@ -96,16 +104,12 @@
                 document.getElementById("accounts").classList.add("err");
             }
 
-            if (document.getElementById("latest-help").innerHTML !== "") {
-                document.getElementById("latest").classList.add("err");
-            }
-
             $(document).ready(function() {
                 jQuery.get('latest.csv?t=' + Math.floor(Date.now() / 1000), function(data) {
                     data = data.replace(/\n/g, "<br>");
                     $("#current_latest").html("<span>" + data + "</span>");
                 });
-            })
+            });
         </script>
     </body>
 </html>
