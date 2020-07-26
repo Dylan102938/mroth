@@ -33,8 +33,6 @@
             }
             fclose($handle2);
 
-            print_r($data);
-
             $masterFile = fopen("accounts.csv", "w+");
             foreach ($data as $value) {
                 try {

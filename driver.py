@@ -15,6 +15,9 @@ def main():
 
             if len(list(reader)) > 1:
                 send_results.main()
+                print("Sent results")
+            else:
+                print("No results to send")
 
         except:
             pass
